@@ -1,6 +1,5 @@
 package io.javabrains.moviecatalogservice.resources;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import io.javabrains.moviecatalogservice.models.CatalogItem;
 import io.javabrains.moviecatalogservice.models.Movie;
 import io.javabrains.moviecatalogservice.models.Rating;
+import io.javabrains.moviecatalogservice.models.UserRating;
 
 @RestController
 @RequestMapping("/catalog")
@@ -23,9 +23,9 @@ public class CatalogResource {
 
 	@RequestMapping("/{userId}")
 	public List<CatalogItem> getCatalogue(@PathVariable String userId) {
-		List<Rating> ratingsList = Arrays.asList(new Rating("1234", 3), new Rating("5678", 4));
+		UserRating ratings = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/"+userId, UserRating.class);
 
-		return ratingsList.stream().map(rating -> {
+		return ratings.getUserRating().stream().map(rating -> {
 			Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
 			return new CatalogItem(movie.getName(), "Description", rating.getRating());
 		}).collect(Collectors.toList());
