@@ -1,4 +1,4 @@
-package io.javabrains.movieinfoservice.models;
+package io.javabrains.moviecatalogservice.models;
 
 public class Movie {
 
@@ -10,10 +10,10 @@ public class Movie {
 		this.movieId = movieId;
 		this.name = movieName;
 	}
-	public Movie()
-	{
+	public Movie() {
 		
 	}
+	
 	
 	public String getMovieId() {
 		return movieId;
